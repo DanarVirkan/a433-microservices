@@ -1,0 +1,29 @@
+# schema version Docker Compose
+version: "3.7"
+
+# Mendefinisikan Service
+services:
+  item-app:
+    # Meggunakan image dari github package 
+    image: ghcr.io/danarvirkan/item-app:v1
+    # Menerapkan restart policy
+    restart: always
+    # Port mapping pada port 80 dari host dan meneruskannya ke port 8080 di dalam kontainer
+    ports:
+      - 80:8080
+    # memastikan item-app hanya berjalan setelah item-db diluncurkan 
+    depends_on:
+    - item-db
+  item-db:
+    # Meggunakan image mongodb 
+    image: mongo:3
+    # Menerapkan restart policy
+    restart: always
+    # Volumes app-db akan terhubung ke direktori "/data/db" di dalam kontainer
+    volumes:
+      - app-db:/data/db
+
+# Mendefinisikan Volumes
+volumes:
+  app-db:
+
